@@ -13,7 +13,7 @@ function App() {
     ]);
 
     function removeTask(id: number) {
-        let filteredTasks = tasks.filter(t => t.id != id);
+        let filteredTasks = tasks.filter(t => t.id !== id);
         setTasks(filteredTasks);
     }
 
