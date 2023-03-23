@@ -2,12 +2,18 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist, TaskType} from "./Todolist";
 import {v1} from "uuid";
+import {AddItemForm} from "./AddItemForm";
 
-export type FilterType = "all" | "active" | "completed"
+export type FilterType = "all" | "active" | "completed";
+
 export type TodolistsType = {
     id: string,
     title: string,
     filter: FilterType,
+}
+
+type TasksStateType = {
+    [key: string]: TaskType[],
 }
 
 function App() {
@@ -19,7 +25,7 @@ function App() {
         {id: todolistsID2, title: "My favorite video games", filter: "all"},
     ])
 
-    let [tasks, setTask] = useState({
+    let [tasks, setTask] = useState<TasksStateType>({
         [todolistsID1]: [
             {idTask: v1(), title: "HTML&CSS", isDone: true},
             {idTask: v1(), title: "JS", isDone: true},
@@ -77,8 +83,19 @@ function App() {
         setTask({...tasks})
     }
 
+    const addTodolist = (title: string) => {
+        let newTodolist: TodolistsType = {
+            id: v1(), title, filter: "all"
+        }
+
+        setTodolists([newTodolist, ...todolists])
+        setTask({...tasks, [newTodolist.id]: []})
+    }
+
     return (
         <div className={"App"}>
+            <AddItemForm addItem={addTodolist}/>
+            <button>x</button>
             {
                 todolists.map(tl => {
                     let tasksForTodolist = tasks[tl.id];
