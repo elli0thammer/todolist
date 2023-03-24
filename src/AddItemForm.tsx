@@ -31,7 +31,9 @@ export function AddItemForm(props: AddItemFormType) {
 
     return (
         <div>
-            <input value={newTaskTitle} onChange={onNewTitleChangeHandler} onKeyPress={onKeyPressHandler}
+            <input value={newTaskTitle}
+                   onChange={onNewTitleChangeHandler}
+                   onKeyPress={onKeyPressHandler}
                    className={error ? "error" : ""}/>
             <button onClick={addTask}>+</button>
             {error && <div className={"error-message"}>Field is required</div>}
