@@ -21,8 +21,10 @@ export const todolistsReducer = (state: TodolistsType[], action: ActionType): To
             return [...state, newTodolist];
         }
 
-        case 'yyy': {
-            return state
+        case 'CHANGE-TODOLIST-TITLE': {
+            const todolist = state.map(tl => tl.id === action.id ? {...tl, title: action.title} : tl);
+
+            return todolist
         }
 
         default: return state
