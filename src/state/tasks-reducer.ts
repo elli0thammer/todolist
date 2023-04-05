@@ -1,7 +1,7 @@
 import {TasksStateType} from "../App";
 import {v1} from "uuid";
 import {TaskType} from "../Todolist";
-import {AddTodolistActionType, RemoveTodolistActionType} from "./todolists-reducer";
+import {AddTodolistActionType, RemoveTodolistActionType, todolistsID1, todolistsID2} from "./todolists-reducer";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -32,7 +32,22 @@ export type changeTaskTitleACType = {
 type ActionsType = RemoveTaskActionType |
     AddTaskActionType | changeTaskStatusACType | changeTaskTitleACType | AddTodolistActionType | RemoveTodolistActionType;
 
-export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
+const initialState: TasksStateType = {
+    [todolistsID1]: [
+        {idTask: v1(), title: "HTML&CSS", isDone: true},
+        {idTask: v1(), title: "JS", isDone: true},
+        {idTask: v1(), title: "ReactJS", isDone: false},
+        {idTask: v1(), title: "Rest API", isDone: false},
+        {idTask: v1(), title: "GraphQL", isDone: false},
+    ],
+    [todolistsID2]: [
+        {idTask: v1(), title: "DMC", isDone: true},
+        {idTask: v1(), title: "Borderlands", isDone: true},
+        {idTask: v1(), title: "Genshin Impact", isDone: false},
+    ],
+}
+
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK': {
             const stateCopy = {...state}
