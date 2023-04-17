@@ -6,9 +6,10 @@ type AddItemFormType = {
     addItem: (title: string) => void,
 }
 
-export function AddItemForm(props: AddItemFormType) {
+export const AddItemForm = React.memo ( (props: AddItemFormType) => {
+    console.log('Рендер Формы')
     const [newTaskTitle, setNewTaskTitle] = useState("")
-    const [error, setError] = useState(false)
+    const [error, setError] = useState<boolean | null>(null)
 
     const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const target = e.currentTarget.value
@@ -25,7 +26,10 @@ export function AddItemForm(props: AddItemFormType) {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(false)
+        if (error !== null) {
+            setError(null)
+        }
+
         if (e.charCode === 13) {
             addTask()
         }
@@ -53,4 +57,4 @@ export function AddItemForm(props: AddItemFormType) {
             {error && <div className={"error-message"}>Field is required</div>}
         </div>
     )
-}
+} );
