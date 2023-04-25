@@ -60,7 +60,7 @@ function AppWithRedux() {
         dispatch(action);
     }, [dispatch] );
 
-    const changeFilterTodolist = useCallback( (newFilter: FilterType, todolistID: string) => {
+    const changeFilterTodolist = useCallback( (todolistID: string, newFilter: FilterType) => {
         const action = changeFilterTodolistAC(todolistID, newFilter)
         dispatch(action);
     }, [dispatch] );

@@ -1,5 +1,4 @@
 import React, {useCallback} from 'react';
-import {FilterType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from '@mui/material/IconButton';
@@ -7,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Button from "@mui/material/Button";
 import {Grid} from "@mui/material";
 import {Task} from "./Task";
+import {FilterType} from "./AppWithRedux";
 
 export type TaskType = {
     idTask: string,
@@ -19,7 +19,7 @@ type TodolistTaskType = {
     title: string,
     removeTask: (id: string, todolistsID: string) => void,
     addTask: (title: string, todolistsID: string) => void,
-    changeFilter: (value: FilterType, todolistID: string) => void,
+    changeFilter: (todolistID: string, value: FilterType) => void,
     changeStatus: (taskID: string, isDone: boolean, todolistsID: string) => void,
     filter: FilterType,
     idToDo: string,
@@ -30,9 +30,9 @@ type TodolistTaskType = {
 
 export const Todolist = React.memo((props: TodolistTaskType) => {
     console.log('Рендер Туду')
-    const onAllClickHandler = useCallback(() => props.changeFilter('all', props.idToDo), [props.changeFilter, props.idToDo]);
-    const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.idToDo), [props.changeFilter, props.idToDo]);
-    const onCompletedClickHandler = useCallback(() => props.changeFilter('completed', props.idToDo), [props.changeFilter, props.idToDo]);
+    const onAllClickHandler = useCallback(() => props.changeFilter(props.idToDo,'all'), [props.changeFilter, props.idToDo]);
+    const onActiveClickHandler = useCallback(() => props.changeFilter(props.idToDo,'active'), [props.changeFilter, props.idToDo]);
+    const onCompletedClickHandler = useCallback(() => props.changeFilter(props.idToDo,'completed'), [props.changeFilter, props.idToDo]);
 
     const removeTodolistHandler = useCallback( () => {
         props.removeTodolist(props.idToDo)
@@ -68,7 +68,7 @@ export const Todolist = React.memo((props: TodolistTaskType) => {
             <AddItemForm addItem={addTask}/>
             <ul className={"todolist__list"}>
                 {
-                    props.tasks.map(t => <Task task={t} idToDo={props.idToDo}
+                    tasksForTodolist.map(t => <Task task={t} idToDo={props.idToDo}
                                                removeTask={props.removeTask}
                                                changeTaskTitle={props.changeTaskTitle}
                                                changeStatus={props.changeStatus}

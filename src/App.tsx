@@ -77,7 +77,7 @@ function App() {
         }
     }
 
-    const changeFilter = (value: FilterType, todolistID: string) => {
+    const changeFilter = (todolistID: string, value: FilterType) => {
         let todolist = todolists.find(tl => tl.id === todolistID)
         if (todolist) {
             todolist.filter = value;
