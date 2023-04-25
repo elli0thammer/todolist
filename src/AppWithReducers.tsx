@@ -79,7 +79,7 @@ function AppWithReducers() {
         dispatchToTasksReducer(action);
     }
 
-    const changeFilterTodolist = (newFilter: FilterType, todolistID: string) => {
+    const changeFilterTodolist = (todolistID: string, newFilter: FilterType) => {
         const action = changeFilterTodolistAC(todolistID, newFilter)
         dispatchToTodolistsReducer(action);
     }
