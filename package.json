@@ -27,7 +27,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "storybook dev -p 9009",
+    "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "eslintConfig": {
@@ -36,6 +36,14 @@
       "react-app/jest"
     ],
     "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      },
       {
         "files": [
           "**/*.stories.*"
@@ -63,18 +71,22 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.14",
-    "@storybook/addon-essentials": "7.0.6",
-    "@storybook/addon-interactions": "7.0.6",
-    "@storybook/addon-links": "7.0.6",
-    "@storybook/blocks": "7.0.6",
-    "@storybook/preset-create-react-app": "7.0.6",
-    "@storybook/react": "7.0.6",
-    "@storybook/react-webpack5": "7.0.6",
+    "@storybook/addon-essentials": "7.0.7",
+    "@storybook/addon-interactions": "7.0.7",
+    "@storybook/addon-links": "7.0.7",
+    "@storybook/blocks": "7.0.7",
+    "@storybook/preset-create-react-app": "7.0.7",
+    "@storybook/react": "7.0.7",
+    "@storybook/react-webpack5": "7.0.7",
     "@storybook/testing-library": "0.0.14-next.2",
     "@types/uuid": "^9.0.1",
     "babel-plugin-named-exports-order": "0.0.2",
     "install": "^0.13.0",
+    "jest-image-snapshot": "^6.1.0",
+    "jest-puppeteer": "^8.0.6",
     "prop-types": "15.8.1",
+    "puppeteer": "^19.11.0",
+    "start-server-and-test": "^2.0.0",
     "webpack": "5.79.0"
   }
 }
