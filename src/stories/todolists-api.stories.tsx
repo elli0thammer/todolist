@@ -18,7 +18,7 @@ export const GetTodolists = () => {
     useEffect(() => {
         todolistsAPI.getTodolists()
             .then((res) => {
-                return setState(res.data)
+                return setState(res.data[0])
             })
 
     }, [])
