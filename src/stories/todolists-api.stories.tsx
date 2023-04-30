@@ -70,7 +70,7 @@ export const GetTasks = () => {
 
         todolistsAPI.getTasks(todolistId)
             .then((res) => {
-                return setState(res.data)
+                return setState(res.data.items)
             })
 
     }, [])
