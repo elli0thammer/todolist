@@ -60,4 +60,9 @@ export const todolistsAPI = {
             {title: "Hello, friend"}, settings)
         return promise
     },
+
+    getTasks(todolistId: string) {
+        let promise = axios.get(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`, settings)
+        return promise
+    },
 }
