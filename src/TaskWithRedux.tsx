@@ -5,7 +5,7 @@ import Favorite from "@mui/icons-material/Favorite";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {TaskType} from "./Todolist";
+import {TaskType} from "./old-files/Todolist";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";

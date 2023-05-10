@@ -13,11 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {Container, Grid, Paper} from "@mui/material";
 import {
     addTodolistAC,
-    changeFilterTodolistAC,
-    changeTitleTodolistAC,
-    removeTodolistAC,
 } from "./state/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 import {TaskType, TodolistWithRedux} from "./TodolistWithRedux";
@@ -35,15 +31,12 @@ export type TasksStateType = {
 }
 
 function AppWithRedux() {
-    console.log('Рендер Арр')
     const dispatch = useDispatch();
     const todolists = useSelector<AppRootState, TodolistStateType[]>(state => state.todolists )
-    const tasks = useSelector<AppRootState, TasksStateType>( state => state.tasks )
 
     const addTodolist = useCallback( (title: string) => {
-        const action = addTodolistAC(title);
-        dispatch(action)
-    }, [dispatch] );
+        dispatch(addTodolistAC(title))
+    }, [dispatch]);
 
     return (
         <div className={"App"}>
@@ -75,9 +68,8 @@ function AppWithRedux() {
                 <Grid container style={{padding: '15px'}} spacing={5}>
                     {
                         todolists.map(tl => {
-                            let tasksForTodolist = tasks[tl.id];
 
-                            return <Grid item>
+                            return <Grid item key={tl.id}>
                                 <Paper style={{padding: '15px'}} elevation={3}>
                                     <TodolistWithRedux
                                         todolist={tl}

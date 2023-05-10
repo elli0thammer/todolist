@@ -7,9 +7,8 @@ import Button from "@mui/material/Button";
 import {Grid} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
-import {TodolistType} from "./AppWithReducers";
+import {TodolistType} from "./old-files/AppWithReducers";
 import {
-    addTodolistAC,
     changeFilterTodolistAC,
     changeTitleTodolistAC,
     removeTodolistAC
@@ -36,21 +35,21 @@ export const TodolistWithRedux = React.memo(({todolist}: TodolistTaskType) => {
 
     let dispatch = useDispatch()
 
-    const onAllClickHandler = useCallback(() => dispatch(changeFilterTodolistAC(id, 'all')), [dispatch])
-    const onActiveClickHandler = useCallback(() => dispatch(changeFilterTodolistAC(id, 'active')), [dispatch]);
-    const onCompletedClickHandler = useCallback(() => dispatch(changeFilterTodolistAC(id, 'completed')), [dispatch]);
+    const onAllClickHandler = useCallback(() => dispatch(changeFilterTodolistAC(id, 'all')), [dispatch, id])
+    const onActiveClickHandler = useCallback(() => dispatch(changeFilterTodolistAC(id, 'active')), [dispatch, id]);
+    const onCompletedClickHandler = useCallback(() => dispatch(changeFilterTodolistAC(id, 'completed')), [dispatch, id]);
 
     const removeTodolistHandler = useCallback(() => {
         dispatch(removeTodolistAC(id))
-    }, [dispatch]);
+    }, [dispatch, id]);
 
     const addTask = useCallback((title: string) => {
         dispatch(addTaskAC(title, id))
-    }, [dispatch]);
+    }, [dispatch, id]);
 
     const changeTodolistHandler = useCallback((newTitle: string) => {
         dispatch(changeTitleTodolistAC(id, newTitle))
-    }, [dispatch]);
+    }, [dispatch, id]);
 
     if (filter === "completed") {
         tasks = tasks.filter(t => t.isDone)

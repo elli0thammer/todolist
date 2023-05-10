@@ -6,12 +6,12 @@ import {
     todolistsReducer
 } from './todolists-reducer'
 import {v1} from 'uuid'
-import {FilterType, TodolistType} from '../App'
+import {FilterType, TodolistStateType} from '../AppWithRedux'
 
 let todolistId1: string;
 let todolistId2: string;
 
-let startState: Array<TodolistType>;
+let startState: Array<TodolistStateType>;
 
 beforeEach(()=>{
     todolistId1 = v1();

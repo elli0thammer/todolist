@@ -1,5 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {Task} from "../Task";
+import {Task} from "../old-files/Task";
 import {action} from "@storybook/addon-actions";
 
 const meta: Meta<typeof Task> = {
