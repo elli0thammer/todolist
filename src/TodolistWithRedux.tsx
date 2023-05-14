@@ -7,28 +7,30 @@ import Button from "@mui/material/Button";
 import {Grid} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
-import {TodolistType} from "./old-files/AppWithReducers";
+
 import {
     changeFilterTodolistAC,
     changeTitleTodolistAC,
-    removeTodolistAC
+    removeTodolistAC,
+    TodolistDomainType
 } from "./state/todolists-reducer";
 import {TaskWithRedux} from "./TaskWithRedux";
 import {addTaskAC} from "./state/tasks-reducer";
+import {TaskStatuses, TaskType} from "./api/todolists-api";
 
-export type TaskType = {
+/*export type TaskType = {
     idTask: string,
     title: string,
     isDone: boolean,
-}
+}*/
 
 type TodolistTaskType = {
-    todolist: TodolistType
+    todolist: TodolistDomainType
 }
 
 export const TodolistWithRedux = React.memo(({todolist}: TodolistTaskType) => {
     //деструктуризация тудулиста. приходит весь туду
-    const {id, title, filter} = todolist
+    const {id, title, filter, addedDate, order} = todolist
 
     //обращаемся к нужным таскам по ключу тудулиста - state.tasks[id]
     let tasks = useSelector<AppRootState, TaskType[]>(state => state.tasks[id])
@@ -52,11 +54,11 @@ export const TodolistWithRedux = React.memo(({todolist}: TodolistTaskType) => {
     }, [dispatch, id]);
 
     if (filter === "completed") {
-        tasks = tasks.filter(t => t.isDone)
+        tasks = tasks.filter(t => t.status === TaskStatuses.Completed)
     }
 
     if (filter === "active") {
-        tasks = tasks.filter(t => !t.isDone)
+        tasks = tasks.filter(t => t.status === TaskStatuses.New)
     }
 
     return (
@@ -72,7 +74,7 @@ export const TodolistWithRedux = React.memo(({todolist}: TodolistTaskType) => {
             <ul className={"todolist__list"}>
                 {
                     tasks.map(t => <TaskWithRedux task={t} idToDo={id}
-                                                  key={t.idTask}/>)
+                                                  key={t.id}/>)
                 }
             </ul>
             <div>

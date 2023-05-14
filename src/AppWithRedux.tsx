@@ -12,19 +12,18 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import {Container, Grid, Paper} from "@mui/material";
 import {
-    addTodolistAC,
+    addTodolistAC, TodolistDomainType,
 } from "./state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
-import {TaskType, TodolistWithRedux} from "./TodolistWithRedux";
+import {TodolistWithRedux} from "./TodolistWithRedux";
+import {TaskType, TodolistType} from "./api/todolists-api";
 
-export type FilterType = "all" | "active" | "completed";
-
-export type TodolistStateType = {
+/*export type TodolistStateType = {
     id: string,
     title: string,
     filter: FilterType,
-}
+}*/
 
 export type TasksStateType = {
     [key: string]: TaskType[],
@@ -32,7 +31,7 @@ export type TasksStateType = {
 
 function AppWithRedux() {
     const dispatch = useDispatch();
-    const todolists = useSelector<AppRootState, TodolistStateType[]>(state => state.todolists )
+    const todolists = useSelector<AppRootState, TodolistDomainType[]>(state => state.todolists )
 
     const addTodolist = useCallback( (title: string) => {
         dispatch(addTodolistAC(title))

@@ -1,6 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {Task} from "../old-files/Task";
 import {action} from "@storybook/addon-actions";
+import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
 
 const meta: Meta<typeof Task> = {
     title: 'Todolist/Task',
@@ -21,7 +22,8 @@ const meta: Meta<typeof Task> = {
         changeStatus: action('changed task status'),
         changeTaskTitle: action('changed task title'),
         removeTask: action('removed task'),
-        task: {idTask: '1', title: 'JS', isDone: true},
+        task: {id: '1', title: 'JS', status: TaskStatuses.Completed,  todoListId: '11', startDate: '',
+            deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low, description: ''},
         idToDo: '11'
     }
 };
@@ -34,6 +36,7 @@ export const TaskIsDoneStory: Story = {
 
 export const TaskIsNotDoneStory: Story = {
     args: {
-        task: {idTask: '1', title: 'Redux Toolkit', isDone: false},
+        task: {id: '1', title: 'Redux Toolkit', status: TaskStatuses.New,  todoListId: '11', startDate: '',
+            deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low, description: ''},
     },
 };
