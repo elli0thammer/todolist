@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {AddItemForm} from "./AddItemForm";
 
@@ -12,12 +12,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import {Container, Grid, Paper} from "@mui/material";
 import {
-    addTodolistAC, TodolistDomainType,
+    addTodolistAC, fetchTodolistsTC, TodolistDomainType,
 } from "./state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 import {TodolistWithRedux} from "./TodolistWithRedux";
-import {TaskType, TodolistType} from "./api/todolists-api";
+import {TaskType, todolistsAPI, TodolistType} from "./api/todolists-api";
+import {AppDispatchType} from "./custom-hooks/ThunkHook";
 
 /*export type TodolistStateType = {
     id: string,
@@ -30,12 +31,16 @@ export type TasksStateType = {
 }
 
 function AppWithRedux() {
-    const dispatch = useDispatch();
-    const todolists = useSelector<AppRootState, TodolistDomainType[]>(state => state.todolists )
+    const dispatch = useDispatch<AppDispatchType>();
+    const todolists = useSelector<AppRootState, TodolistDomainType[]>(state => state.todolists)
 
-    const addTodolist = useCallback( (title: string) => {
+    const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistAC(title))
     }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(fetchTodolistsTC())
+    }, [])
 
     return (
         <div className={"App"}>
