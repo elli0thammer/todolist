@@ -1,4 +1,4 @@
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './tasks-reducer'
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTasksAC, tasksReducer} from './tasks-reducer'
 import {addTodolistAC, setTodolistAC, todolistsReducer} from "./todolists-reducer";
 import {TasksStateType} from "../AppWithRedux";
 import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
@@ -109,3 +109,12 @@ test('empty arrays should be added when we set todolists', () => {
     expect(endState['2']).toBeDefined()
 })
 
+test('tasks should be added for todolist', () => {
+    const action = setTasksAC(startState['todolistId1'], 'todolistId1')
+
+    const endState = tasksReducer({'todolistId1':[],'todolistId2':[]}, action)
+
+    expect(endState['todolistId1'].length).toBe(3)
+    expect(endState['todolistId2'].length).toBe(0)
+
+})

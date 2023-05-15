@@ -17,14 +17,8 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 import {TodolistWithRedux} from "./TodolistWithRedux";
-import {TaskType, todolistsAPI, TodolistType} from "./api/todolists-api";
+import {TaskType} from "./api/todolists-api";
 import {AppDispatchType} from "./custom-hooks/ThunkHook";
-
-/*export type TodolistStateType = {
-    id: string,
-    title: string,
-    filter: FilterType,
-}*/
 
 export type TasksStateType = {
     [key: string]: TaskType[],

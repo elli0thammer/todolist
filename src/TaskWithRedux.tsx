@@ -6,27 +6,29 @@ import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch} from "react-redux";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskTC} from "./state/tasks-reducer";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
+import {AppDispatchType} from "./custom-hooks/ThunkHook";
 
 type TaskPropsType = {
     task: TaskType,
     idToDo: string,
 }
-export const TaskWithRedux = React.memo( ({task, idToDo}: TaskPropsType) => {
-    let dispatch = useDispatch()
+export const TaskWithRedux = React.memo(({task, idToDo}: TaskPropsType) => {
+    let dispatch = useDispatch<AppDispatchType>()
 
     const onChangeCheckboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked
         dispatch(changeTaskStatusAC(task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, idToDo))
     }
 
-    const onChangeTitleHandler = useCallback( (newValue: string) => {
+    const onChangeTitleHandler = useCallback((newValue: string) => {
         dispatch(changeTaskTitleAC(task.id, newValue, idToDo))
     }, [dispatch, task.id, idToDo]);
 
-    const onRemoveHandler = (ID: string) => {
-        dispatch(removeTaskAC(ID, idToDo))
+    const onRemoveHandler = (idTask: string) => {
+        const thunk = removeTaskTC(idToDo, idTask)
+        dispatch(thunk)
     }
 
     return (
@@ -41,4 +43,4 @@ export const TaskWithRedux = React.memo( ({task, idToDo}: TaskPropsType) => {
             </IconButton>
         </li>
     )
-} );
+});

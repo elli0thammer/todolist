@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from '@mui/material/IconButton';
@@ -15,14 +15,9 @@ import {
     TodolistDomainType
 } from "./state/todolists-reducer";
 import {TaskWithRedux} from "./TaskWithRedux";
-import {addTaskAC} from "./state/tasks-reducer";
+import {addTaskAC, fetchTaskTC} from "./state/tasks-reducer";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
-
-/*export type TaskType = {
-    idTask: string,
-    title: string,
-    isDone: boolean,
-}*/
+import {AppDispatchType} from "./custom-hooks/ThunkHook";
 
 type TodolistTaskType = {
     todolist: TodolistDomainType
@@ -35,7 +30,11 @@ export const TodolistWithRedux = React.memo(({todolist}: TodolistTaskType) => {
     //обращаемся к нужным таскам по ключу тудулиста - state.tasks[id]
     let tasks = useSelector<AppRootState, TaskType[]>(state => state.tasks[id])
 
-    let dispatch = useDispatch()
+    let dispatch = useDispatch<AppDispatchType>()
+
+    useEffect(() => {
+        dispatch(fetchTaskTC(id))
+    }, [])
 
     const onAllClickHandler = useCallback(() => dispatch(changeFilterTodolistAC(id, 'all')), [dispatch, id])
     const onActiveClickHandler = useCallback(() => dispatch(changeFilterTodolistAC(id, 'active')), [dispatch, id]);
