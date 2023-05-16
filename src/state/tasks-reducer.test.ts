@@ -1,7 +1,7 @@
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTasksAC, tasksReducer} from './tasks-reducer'
-import {addTodolistAC, setTodolistAC, todolistsReducer} from "./todolists-reducer";
+import {addTaskAC, removeTaskAC, setTasksAC, tasksReducer, updateTaskAC} from './tasks-reducer'
+import {addTodolistAC, setTodolistAC} from "./todolists-reducer";
 import {TasksStateType} from "../AppWithRedux";
-import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
+import {TaskPriorities, TaskStatuses, TodolistType} from "../api/todolists-api";
 
 let startState: TasksStateType;
 
@@ -50,7 +50,8 @@ test('correct task should be deleted from correct array', () => {
 })
 
 test('correct task should be added to correct array', () => {
-    const action = addTaskAC('juce', 'todolistId2')
+    const action = addTaskAC({id: '1', title: 'juce', status: TaskStatuses.New, todoListId: 'todolistId2', startDate: '',
+        deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low, description: ''})
 
     const endState = tasksReducer(startState, action)
 
@@ -62,7 +63,7 @@ test('correct task should be added to correct array', () => {
 })
 
 test('status of specified task should be changed', () => {
-    const action = changeTaskStatusAC('2', TaskStatuses.New, 'todolistId2')
+    const action = updateTaskAC('2', {status: TaskStatuses.New}, 'todolistId2')
 
     const endState = tasksReducer(startState, action)
 
@@ -71,7 +72,7 @@ test('status of specified task should be changed', () => {
 })
 
 test('title of specified task should be changed', () => {
-    const action = changeTaskTitleAC('2', 'wine', 'todolistId2')
+    const action = updateTaskAC('2', {title: 'wine'}, 'todolistId2')
 
     const endState = tasksReducer(startState, action)
 
@@ -80,7 +81,8 @@ test('title of specified task should be changed', () => {
 })
 
 test('new array should be added when new todolist is added', () => {
-    const action = addTodolistAC('new todolist')
+    const newTodolist: TodolistType = ({id: 'todolistId1', title: 'juce', addedDate: '', order: 0})
+    const action = addTodolistAC(newTodolist)
 
     const endState = tasksReducer(startState, action)
 
