@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 import '../App.css';
 import {Todolist} from "./Todolist";
 import {v1} from "uuid";
@@ -20,8 +20,12 @@ import {
     removeTodolistAC,
     todolistsReducer
 } from "../state/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "../state/tasks-reducer";
-import {useDispatch} from "react-redux";
+import {
+    addTaskAC,
+    removeTaskAC,
+    tasksReducer,
+    updateTaskAC
+} from "../state/tasks-reducer";
 import {TaskPriorities, TaskStatuses, TaskType} from "../api/todolists-api";
 
 /*export type FilterType = "all" | "active" | "completed";
@@ -66,17 +70,18 @@ function AppWithReducers() {
     }
 
     const addTask = (title: string, todolistsID: string) => {
-        const action = addTaskAC(title, todolistsID);
+        const action = addTaskAC({id: '1', title: title, status: TaskStatuses.New, todoListId: todolistsID, startDate: '',
+            deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low, description: ''});
         dispatchToTasksReducer(action);
     }
 
     const changeStatusTask = (taskID: string, status: TaskStatuses, todolistsID: string) => {
-        const action = changeTaskStatusAC(taskID, status, todolistsID);
+        const action = updateTaskAC(taskID, {status}, todolistsID);
         dispatchToTasksReducer(action);
     }
 
     const changeTaskTitle = (taskID: string, newTitle: string, todolistsID: string) => {
-        const action = changeTaskTitleAC(taskID, newTitle, todolistsID);
+        const action = updateTaskAC(taskID, {title: newTitle}, todolistsID);
         dispatchToTasksReducer(action);
     }
 
@@ -92,7 +97,7 @@ function AppWithReducers() {
     }
 
     const addTodolist = (title: string) => {
-        const action = addTodolistAC(title);
+        const action = addTodolistAC({id: v1(),addedDate: '', order: 0, title});
         dispatchToTodolistsReducer(action)
         dispatchToTasksReducer(action)
     }

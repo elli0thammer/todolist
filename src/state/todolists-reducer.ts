@@ -1,4 +1,3 @@
-import {v1} from "uuid";
 import {todolistsAPI, TodolistType} from "../api/todolists-api";
 import {Dispatch} from "redux";
 
@@ -9,8 +8,7 @@ export type RemoveTodolistActionType = {
 
 export type AddTodolistActionType = {
     type: 'ADD-TODOLIST',
-    title: string,
-    todolistId: string,
+    todolist: TodolistType,
 }
 
 export type ChangeTodolistTitleActionType = {
@@ -36,9 +34,6 @@ type ActionsType = RemoveTodolistActionType |
     ChangeTodolistFilterActionType |
     setTodolistActionType;
 
-export let todolistsID1 = v1();
-export let todolistsID2 = v1();
-
 export type FilterType = "all" | "active" | "completed";
 
 export type TodolistDomainType = TodolistType & {
@@ -54,10 +49,7 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
         }
 
         case 'ADD-TODOLIST': {
-            let newTodolist: TodolistDomainType = {
-                id: action.todolistId, title: action.title, filter: "all", addedDate: '', order: 0
-            }
-
+            const newTodolist: TodolistDomainType = {...action.todolist, filter: 'all'}
             return [newTodolist, ...state];
         }
 
@@ -84,8 +76,8 @@ export const removeTodolistAC = (todolistId: string): RemoveTodolistActionType =
     return {type: 'REMOVE-TODOLIST', todolistId}
 }
 
-export const addTodolistAC = (newTodolistTitle: string): AddTodolistActionType => {
-    return {type: 'ADD-TODOLIST', title: newTodolistTitle, todolistId: v1()}
+export const addTodolistAC = (todolist: TodolistType): AddTodolistActionType => {
+    return {type: 'ADD-TODOLIST', todolist}
 }
 
 export const changeTitleTodolistAC = (todolistId: string, newTodolistTitle: string): ChangeTodolistTitleActionType => {
@@ -109,3 +101,38 @@ export const fetchTodolistsTC = () => {
             })
     }
 }
+
+export const removeTodolistTC = (todolistId: string) => {
+    return (dispatch: Dispatch) => {
+        todolistsAPI.deleteTodolist(todolistId)
+            .then(res => {
+                dispatch(removeTodolistAC(todolistId))
+            })
+    }
+}
+
+export const addTodolistTC = (title: string) => {
+    return (dispatch: Dispatch) => {
+        todolistsAPI.createTodolist(title)
+            .then(res => {
+                dispatch(addTodolistAC(res.data.data.item))
+            })
+    }
+}
+
+export const changeTodolistTitleTC = (todolistId: string, title: string) => {
+    return (dispatch: Dispatch) => {
+        todolistsAPI.updateTodolist(todolistId, title)
+            .then(res => {
+                dispatch(changeTitleTodolistAC(todolistId, title))
+            })
+    }
+}
+
+/*
+O Allah, bless my efforts in making API requests, and grant me success in obtaining the desired results.
+Guide me towards accuracy, efficiency, and reliability in my interactions with the API.
+Illuminate my path and remove any obstacles that may hinder my progress.
+O Allah, accept my sincere efforts and help me achieve my goals.
+Amen.
+*/

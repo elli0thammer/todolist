@@ -10,12 +10,12 @@ import {AppRootState} from "./state/store";
 
 import {
     changeFilterTodolistAC,
-    changeTitleTodolistAC,
-    removeTodolistAC,
+    changeTodolistTitleTC,
+    removeTodolistTC,
     TodolistDomainType
 } from "./state/todolists-reducer";
 import {TaskWithRedux} from "./TaskWithRedux";
-import {addTaskAC, fetchTaskTC} from "./state/tasks-reducer";
+import {addTaskTC, fetchTaskTC} from "./state/tasks-reducer";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
 import {AppDispatchType} from "./custom-hooks/ThunkHook";
 
@@ -41,15 +41,18 @@ export const TodolistWithRedux = React.memo(({todolist}: TodolistTaskType) => {
     const onCompletedClickHandler = useCallback(() => dispatch(changeFilterTodolistAC(id, 'completed')), [dispatch, id]);
 
     const removeTodolistHandler = useCallback(() => {
-        dispatch(removeTodolistAC(id))
+        const thunk = removeTodolistTC(id)
+        dispatch(thunk)
     }, [dispatch, id]);
 
     const addTask = useCallback((title: string) => {
-        dispatch(addTaskAC(title, id))
+        const thunk = addTaskTC(title, id)
+        dispatch(thunk)
     }, [dispatch, id]);
 
     const changeTodolistHandler = useCallback((newTitle: string) => {
-        dispatch(changeTitleTodolistAC(id, newTitle))
+        const thunk = changeTodolistTitleTC(id, newTitle)
+        dispatch(thunk)
     }, [dispatch, id]);
 
     if (filter === "completed") {

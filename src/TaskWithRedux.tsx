@@ -6,7 +6,10 @@ import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch} from "react-redux";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskTC} from "./state/tasks-reducer";
+import {
+    changeTaskTC,
+    removeTaskTC
+} from "./state/tasks-reducer";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
 import {AppDispatchType} from "./custom-hooks/ThunkHook";
 
@@ -19,11 +22,12 @@ export const TaskWithRedux = React.memo(({task, idToDo}: TaskPropsType) => {
 
     const onChangeCheckboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked
-        dispatch(changeTaskStatusAC(task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, idToDo))
+        const thunk = changeTaskTC(task.id, {status: newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New}, idToDo)
+        dispatch(thunk)
     }
 
     const onChangeTitleHandler = useCallback((newValue: string) => {
-        dispatch(changeTaskTitleAC(task.id, newValue, idToDo))
+        dispatch(changeTaskTC(task.id, {title: newValue}, idToDo))
     }, [dispatch, task.id, idToDo]);
 
     const onRemoveHandler = (idTask: string) => {

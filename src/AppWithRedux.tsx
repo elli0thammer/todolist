@@ -12,7 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import {Container, Grid, Paper} from "@mui/material";
 import {
-    addTodolistAC, fetchTodolistsTC, TodolistDomainType,
+    addTodolistTC, fetchTodolistsTC, TodolistDomainType,
 } from "./state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
@@ -29,7 +29,8 @@ function AppWithRedux() {
     const todolists = useSelector<AppRootState, TodolistDomainType[]>(state => state.todolists)
 
     const addTodolist = useCallback((title: string) => {
-        dispatch(addTodolistAC(title))
+        const thunk = addTodolistTC(title)
+        dispatch(thunk)
     }, [dispatch]);
 
     useEffect(() => {
